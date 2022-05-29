@@ -262,6 +262,7 @@ while looping :
   ## Change the order in which they are rendered depending on which is currently bigger
   if(characterSize < enemySize):
     pygame.draw.rect(WINDOW, purple, character) ## Render the character to the screen
+    show_character_size(white, 'comicsansms', 20) ## Display the current character size
     ## Only render the enemy if it hasn't been killed
     if (not enemyDead):
       enemy = pygame.Rect(enemyX, enemyY, enemySize, enemySize) ## Define the enemy's current position & size
@@ -274,6 +275,7 @@ while looping :
       pygame.draw.rect(WINDOW, red, enemy) ## Render the enemy to the screen
       show_enemy_size(white, 'comicsansms', 20) ## Display the current enemy size
     pygame.draw.rect(WINDOW, purple, character) ## Render the character to the screen
+    show_character_size(white, 'comicsansms', 20) ## Display the current character size
 
   ## Update the current score (40 is the initial size, so we subtract that)
   score = characterSize - 40 
@@ -281,8 +283,6 @@ while looping :
   show_score(white, 'comicsansms', 20)
   ## Display the current highscore
   show_high_score(white, 'comicsansms', 20)
-  ## Display the current character size
-  show_character_size(white, 'comicsansms', 20)
 
   pygame.display.flip() ## Update the screen
   fpsClock.tick(FPS) ## Tick the game clock forward

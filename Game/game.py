@@ -256,16 +256,25 @@ while looping :
   WINDOW.fill(blue) ## Fill the background with a specified color
   pygame.draw.rect(WINDOW, green, food) ## Render the food to the screen
   pygame.draw.rect(WINDOW, green, food2) ## Render the food to the screen
-  pygame.draw.rect(WINDOW, purple, character) ## Render the character to the screen
 
-  ## Only render the enemy if it hasn't been killed
-  if (not enemyDead):
-    enemy = pygame.Rect(enemyX, enemyY, enemySize, enemySize) ## Define the enemy's current position & size
-    pygame.draw.rect(WINDOW, red, enemy) ## Render the enemy to the screen
-    show_enemy_size(white, 'comicsansms', 20) ## Display the current enemy size
+  ## Change the order in which they are rendered depending on which is currently bigger
+  if(characterSize < enemySize):
+    pygame.draw.rect(WINDOW, purple, character) ## Render the character to the screen
+    ## Only render the enemy if it hasn't been killed
+    if (not enemyDead):
+      enemy = pygame.Rect(enemyX, enemyY, enemySize, enemySize) ## Define the enemy's current position & size
+      pygame.draw.rect(WINDOW, red, enemy) ## Render the enemy to the screen
+      show_enemy_size(white, 'comicsansms', 20) ## Display the current enemy size
+  else:
+    ## Only render the enemy if it hasn't been killed
+    if (not enemyDead):
+      enemy = pygame.Rect(enemyX, enemyY, enemySize, enemySize) ## Define the enemy's current position & size
+      pygame.draw.rect(WINDOW, red, enemy) ## Render the enemy to the screen
+      show_enemy_size(white, 'comicsansms', 20) ## Display the current enemy size
+    pygame.draw.rect(WINDOW, purple, character) ## Render the character to the screen
 
-  score = characterSize - 40 ## Update the current score (40 is the initial size, so we subtract that)
-
+  ## Update the current score (40 is the initial size, so we subtract that)
+  score = characterSize - 40 
   ## Display the current score
   show_score(white, 'comicsansms', 20)
   ## Display the current highscore

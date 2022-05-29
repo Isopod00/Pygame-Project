@@ -35,6 +35,8 @@ fpsClock = pygame.time.Clock()
  
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) ## Define the size of the game window
 pygame.display.set_caption('Anthony\'s Amazing Game!') ## Set the title of the game window
+pygame_icon = pygame.image.load('Icon.png') ## Load the game icon
+pygame.display.set_icon(pygame_icon) ## Set the game icon
 
 ## Save an object to a local file using the pickle module
 def save_object(object):

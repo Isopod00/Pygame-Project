@@ -193,22 +193,22 @@ while looping :
   ## Make the enemy move it's position towards the nearest food
   if(enemySize < characterSize*2):
     if(not enemyDead and distance(enemyX + enemySize/2, foodX, enemyY + enemySize/2, foodY) < distance(enemyX + enemySize/2, food2X, enemyY + enemySize/2, food2Y)):
-      if(enemyX + enemySize/2 < foodX):
+      if(enemyX + enemySize/2 - foodX) < -1:
         enemyX += enemySpeed
-      elif(enemyX + enemySize/2 > foodX):
+      elif(enemyX + enemySize/2 - foodX) > 1:
         enemyX -= enemySpeed
-      if(enemyY + enemySize/2 < foodY):
+      if(enemyY + enemySize/2 - foodY) < -1:
         enemyY += enemySpeed
-      elif(enemyY + enemySize/2 > foodY):
+      elif(enemyY + enemySize/2 - foodY) > 1:
         enemyY -= enemySpeed  
     elif(not enemyDead):
-      if(enemyX + enemySize/2 < food2X):
+      if(enemyX + enemySize/2 - food2X) < -1:
         enemyX += enemySpeed
-      elif(enemyX + enemySize/2 > food2X):
+      elif(enemyX + enemySize/2 - food2X) > 1:
         enemyX -= enemySpeed
-      if(enemyY + enemySize/2 < food2Y):
+      if(enemyY + enemySize/2 - food2Y) < -1:
         enemyY += enemySpeed
-      elif(enemyY + enemySize/2 > food2Y):
+      elif(enemyY + enemySize/2 - food2Y) > 1:
         enemyY -= enemySpeed  
   else: ## If the enemy is big enough, seek out the player to eat them
     if(enemyX + enemySize/2 < characterX + characterSize/2):

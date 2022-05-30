@@ -24,7 +24,7 @@ characterSize = 40
 enemySize = 40
 ## Set the initial score
 score = 0
-## The enemy starts alive
+## The enemy starts alive :)
 enemyDead = False
 
 ## Initialize the pygame module!
@@ -32,9 +32,8 @@ pygame.init()
 
 ## Instantiate the game clock object
 fpsClock = pygame.time.Clock()
- 
-flags = pygame.SCALED | pygame.RESIZABLE ## Make the game window resizable, and scale it to maintain the same aspect ratio
-WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), flags, vsync=1) ## Set the display mode and enable vsync
+## Set the display mode and size
+WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) 
 
 pygame.display.set_caption('Square Survival') ## Set the title of the game window
 pygame_icon = pygame.image.load('Icon.png') ## Load the game icon

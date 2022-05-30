@@ -15,8 +15,8 @@ pink = (250, 213, 229)
 brown = (139, 69, 19)
 
 ## Game Configuration Settings (Important)
-WINDOW_WIDTH = 1024 ## Width of the screen in pixels
-WINDOW_HEIGHT = 640 ## Height of the screen in pixels
+WINDOW_WIDTH = 1920 ## Width of the screen in pixels
+WINDOW_HEIGHT = 1080 ## Height of the screen in pixels
 FPS = 60 ## How many Frames Per Second to render
 
 ## Set the initial size of the character and enemt
@@ -33,7 +33,9 @@ pygame.init()
 ## Instantiate the game clock object
 fpsClock = pygame.time.Clock()
  
-WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) ## Define the size of the game window
+flags = pygame.SCALED | pygame.RESIZABLE ## Make the game window resizable, and scale it to maintain the same aspect ratio
+WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), flags, vsync=1) ## Set the display mode and enable vsync
+
 pygame.display.set_caption('Square Survival') ## Set the title of the game window
 pygame_icon = pygame.image.load('Icon.png') ## Load the game icon
 pygame.display.set_icon(pygame_icon) ## Set the game icon

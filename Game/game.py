@@ -7,12 +7,7 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
-black = (0, 0, 0)
-orange = (255, 123, 25)
-yellow = (255, 255, 0)
 purple = (128,0,128)
-pink = (250, 213, 229)
-brown = (139, 69, 19)
 
 ## Game Configuration Settings (Important)
 WINDOW_WIDTH = 1024 ## Width of the screen in pixels

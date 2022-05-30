@@ -15,8 +15,8 @@ pink = (250, 213, 229)
 brown = (139, 69, 19)
 
 ## Game Configuration Settings (Important)
-WINDOW_WIDTH = 1920 ## Width of the screen in pixels
-WINDOW_HEIGHT = 1080 ## Height of the screen in pixels
+WINDOW_WIDTH = 1024 ## Width of the screen in pixels
+WINDOW_HEIGHT = 640 ## Height of the screen in pixels
 FPS = 60 ## How many Frames Per Second to render
 
 ## Set the initial size of the character and enemt

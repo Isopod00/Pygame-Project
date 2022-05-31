@@ -264,7 +264,7 @@ while looping :
       game_over()
 
   ## There is a chance for the enemy to spawn again after it dies
-  if enemyDead and random.randint(1, 100) == 100:
+  if enemyDead and random.randint(1, 120) == 120:
     enemyDead = False
     enemyX = random.randint(10, WINDOW_WIDTH - 10)
     enemyY = random.randint(10, WINDOW_HEIGHT - 10)

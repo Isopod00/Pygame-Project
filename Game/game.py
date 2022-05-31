@@ -104,7 +104,9 @@ def game_over():
   if(score > highscore):
     save_object(score)
 
-  ## Display the player's final score to the screen    
+  WINDOW.fill(blue) ## Fill the screen blue and display only the necessary info ##
+  display_text(white, 'comicsansms', 20, f'Score : {score}', 'topleft', (10, 5))
+  display_text(white, 'comicsansms', 20, f'Highscore : {highscore}', 'topright', (WINDOW_WIDTH-10, 5))
   display_text(white, 'comicsansms', 50, f'Your Final Score is : {score}', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/4))
   pygame.display.flip()
     
@@ -125,6 +127,9 @@ def main_menu():
 
   while in_menu:
     WINDOW.fill(blue) ## Fill the background with a specified color
+    display_text(red, 'comicsansms', 30, 'Square Survival', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/4))
+    display_text(white, 'comicsansms', 40, 'Press Enter/Return to Start!', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
+
     for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()

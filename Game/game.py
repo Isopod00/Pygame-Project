@@ -46,35 +46,26 @@ def load_object(filename):
 ## Load the highscore from the pickle file
 highscore = load_object("data.pickle")
 
-## Method for displaying the score
-def show_score(color, font, size):
+## Method for displaying text on the screen
+def display_text(color, font, size, text, referencePoint, position):
    
-  ## Create the font object 'score_font'
-  score_font = pygame.font.SysFont(font, size)
+  ## Create the font object
+  font = pygame.font.SysFont(font, size)
   ## Create the display surface object 'score_surface'
-  score_surface = score_font.render(f'Score : {score}', True, color)
+  surface = font.render(text, True, color)
   ## Create a rectangular object for the text surface
-  score_rect = score_surface.get_rect()
-  ## Set the position of the text
-  score_rect.topleft = (10, 5)
-    
-  ## Use 'blit' to draw the text on screen
-  WINDOW.blit(score_surface, score_rect)
+  rect = surface.get_rect()
 
-## Method for displaying the highscore
-def show_high_score(color, font, size):
-   
-  ## Create the font object 'score_font'
-  score_font = pygame.font.SysFont(font, size)
-  ## Create the display surface object 'score_surface'
-  score_surface = score_font.render(f'Highscore : {highscore}', True, color)
-  ## Create a rectangular object for the text surface
-  score_rect = score_surface.get_rect()
   ## Set the position of the text
-  score_rect.topright = (WINDOW_WIDTH-10, 5)
+  if referencePoint == 'center':
+    rect.center = position
+  elif referencePoint == 'topright':
+    rect.topright = position
+  elif referencePoint == 'topleft':
+    rect.topleft = position
     
   ## Use 'blit' to draw the text on screen
-  WINDOW.blit(score_surface, score_rect)
+  WINDOW.blit(surface, rect)
 
 ## Show the current size of the character
 def show_character_size(color, font, size):
@@ -113,17 +104,8 @@ def game_over():
   if(score > highscore):
     save_object(score)
 
-  ## Create the font object 'my_font'
-  my_font = pygame.font.SysFont('comicsansms', 50)
-  ## Create a text surface on which text can be drawn
-  game_over_surface = my_font.render(f'Your Final Score is : {score}', True, white)
-  ## Create a rectangular object for the text surface
-  game_over_rect = game_over_surface.get_rect()
-  ## Set the position of the text
-  game_over_rect.midtop = (WINDOW_WIDTH/2, WINDOW_HEIGHT/4)
-    
-  ## Use 'blit' to draw the text on screen
-  WINDOW.blit(game_over_surface, game_over_rect)
+  ## Display the player's final score to the screen    
+  display_text(white, 'comicsansms', 50, f'Your Final Score is : {score}', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/4))
   pygame.display.flip()
     
   ## Wait for 2 seconds before quitting the program
@@ -293,9 +275,9 @@ while looping :
   ## Update the current score (40 is the initial size, so we subtract that)
   score = characterSize - 40 
   ## Display the current score
-  show_score(white, 'comicsansms', 20)
+  display_text(white, 'comicsansms', 20, f'Score : {score}', 'topleft', (10, 5))
   ## Display the current highscore
-  show_high_score(white, 'comicsansms', 20)
+  display_text(white, 'comicsansms', 20, f'Highscore : {highscore}', 'topright', (WINDOW_WIDTH-10, 5))
 
   pygame.display.flip() ## Update the screen
   fpsClock.tick(FPS) ## Tick the game clock forward

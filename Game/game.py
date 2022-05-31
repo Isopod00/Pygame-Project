@@ -22,6 +22,9 @@ score = 0
 ## The enemy starts alive :)
 enemyDead = False
 
+## Set the initial scale of the game
+scale = 1
+
 ## Initialize the pygame module!
 pygame.init()
 
@@ -77,7 +80,7 @@ def show_character_size(color, font, size):
   ## Create a rectangular object for the text surface
   size_rect = size_surface.get_rect()
   ## Set the position of the text
-  size_rect.center = (characterX + characterSize/2, characterY + characterSize/2)
+  size_rect.center = (characterX + scale*characterSize/2, characterY + scale*characterSize/2)
 
   ## Use 'blit' to draw the text on screen
   WINDOW.blit(size_surface, size_rect)
@@ -92,7 +95,7 @@ def show_enemy_size(color, font, size):
   ## Create a rectangular object for the text surface
   size_rect = size_surface.get_rect()
   ## Set the position of the text
-  size_rect.center = (enemyX + enemySize/2, enemyY + enemySize/2)
+  size_rect.center = (enemyX + scale*enemySize/2, enemyY + scale*enemySize/2)
 
   ## Use 'blit' to draw the text on screen
   WINDOW.blit(size_surface, size_rect)
@@ -124,11 +127,21 @@ def distance(x1,x2,y1,y2):
 ## Method for displaying the main menu
 def main_menu():
   in_menu = True
+  textSize = 35
+  loop = 1
+  maxLoop = 50
 
   while in_menu:
     WINDOW.fill(blue) ## Fill the background with a specified color
-    display_text(red, 'comicsansms', 30, 'Square Survival', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/4))
-    display_text(white, 'comicsansms', 40, 'Press Enter/Return to Start!', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
+    display_text(red, 'comicsansms', 40, 'Square Survival', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/4))
+
+    if loop < maxLoop/2:
+      loop += 1
+      display_text(white, 'comicsansms', textSize, 'Press Enter/Return to Start!', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
+    elif loop < maxLoop:
+      loop += 1
+    else:
+      loop = 1
 
     for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -179,78 +192,99 @@ while looping :
     characterY = characterY - characterSpeed
 
   ## Make the character pop out of the other side if it runs into the edge
-  if (characterY + characterSize > WINDOW_HEIGHT):
+  if (characterY + scale*characterSize > WINDOW_HEIGHT):
     characterY = 0
   elif (characterY < 0):
-    characterY = WINDOW_HEIGHT - characterSize
-  if (characterX + characterSize > WINDOW_WIDTH):
+    characterY = WINDOW_HEIGHT - scale*characterSize
+  if (characterX + scale*characterSize > WINDOW_WIDTH):
     characterX = 0
   elif (characterX < 0):
-    characterX = WINDOW_WIDTH - characterSize
+    characterX = WINDOW_WIDTH - scale*characterSize
 
   ## Make the enemy move it's position towards the nearest food
   if(enemySize < characterSize*2):
-    if(not enemyDead and distance(enemyX + enemySize/2, foodX, enemyY + enemySize/2, foodY) < distance(enemyX + enemySize/2, food2X, enemyY + enemySize/2, food2Y)):
-      if(enemyX + enemySize/2 - foodX) < -1:
+    if(not enemyDead and distance(enemyX + scale*enemySize/2, foodX, enemyY + scale*enemySize/2, foodY) < distance(enemyX + scale*enemySize/2, food2X, enemyY + scale*enemySize/2, food2Y)):
+      if(enemyX + scale*enemySize/2 - foodX) < -1:
         enemyX += enemySpeed
-      elif(enemyX + enemySize/2 - foodX) > 1:
+      elif(enemyX + scale*enemySize/2 - foodX) > 1:
         enemyX -= enemySpeed
-      if(enemyY + enemySize/2 - foodY) < -1:
+      if(enemyY + scale*enemySize/2 - foodY) < -1:
         enemyY += enemySpeed
-      elif(enemyY + enemySize/2 - foodY) > 1:
+      elif(enemyY + scale*enemySize/2 - foodY) > 1:
         enemyY -= enemySpeed  
     elif(not enemyDead):
-      if(enemyX + enemySize/2 - food2X) < -1:
+      if(enemyX + scale*enemySize/2 - food2X) < -1:
         enemyX += enemySpeed
-      elif(enemyX + enemySize/2 - food2X) > 1:
+      elif(enemyX + scale*enemySize/2 - food2X) > 1:
         enemyX -= enemySpeed
-      if(enemyY + enemySize/2 - food2Y) < -1:
+      if(enemyY + scale*enemySize/2 - food2Y) < -1:
         enemyY += enemySpeed
-      elif(enemyY + enemySize/2 - food2Y) > 1:
+      elif(enemyY + scale*enemySize/2 - food2Y) > 1:
         enemyY -= enemySpeed  
   else: ## If the enemy is big enough, seek out the player to eat them
-    if(enemyX + enemySize/2 < characterX + characterSize/2):
+    if(enemyX + scale*enemySize/2 < characterX + scale*characterSize/2):
         enemyX += enemySpeed
-    elif(enemyX + enemySize/2 > characterX + characterSize/2):
+    elif(enemyX + scale*enemySize/2 > characterX + scale*characterSize/2):
         enemyX -= enemySpeed
-    if(enemyY + enemySize/2 < characterY + characterSize/2):
+    if(enemyY + scale*enemySize/2 < characterY + scale*characterSize/2):
         enemyY += enemySpeed
-    elif(enemyY + enemySize/2 > characterY + characterSize/2):
+    elif(enemyY + scale*enemySize/2 > characterY + scale*characterSize/2):
         enemyY -= enemySpeed  
 
   ## If the character eats the food, increase the score and the size of the character
-  if (abs((characterX + (characterSize/2)) - (foodX + (5/2))) <= characterSize/2 and abs((characterY + (characterSize/2)) - (foodY + 5/2)) <= characterSize/2):
-    characterSize += 4
+  if (abs((characterX + (scale*characterSize/2)) - (foodX + (5/2))) <= scale*characterSize/2 and abs((characterY + (scale*characterSize/2)) - (foodY + 5/2)) <= scale*characterSize/2):
+    characterSize += int(4 * (1/scale))
     ## Randomize the new position of the food
     foodX = random.randint(10, WINDOW_WIDTH - 10)
     foodY = random.randint(10, WINDOW_HEIGHT - 10)
-  if (abs((characterX + (characterSize/2)) - (food2X + (5/2))) <= characterSize/2 and abs((characterY + (characterSize/2)) - (food2Y + 5/2)) <= characterSize/2):
-    characterSize += 4
+  if (abs((characterX + (scale*characterSize/2)) - (food2X + (5/2))) <= scale*characterSize/2 and abs((characterY + (scale*characterSize/2)) - (food2Y + 5/2)) <= scale*characterSize/2):
+    characterSize += int(4 * (1/scale))
     ## Randomize the new position of the food
     food2X = random.randint(10, WINDOW_WIDTH - 10)
     food2Y = random.randint(10, WINDOW_HEIGHT - 10)
   ## If the enemy eats the food, increase the score and the size of the character
-  if (not enemyDead and abs((enemyX + (enemySize/2)) - (foodX + (5/2))) <= enemySize/2 and abs((enemyY + (enemySize/2)) - (foodY + 5/2)) <= enemySize/2):
-    enemySize += 4
+  if (not enemyDead and abs((enemyX + (scale*enemySize/2)) - (foodX + (5/2))) <= scale*enemySize/2 and abs((enemyY + (scale*enemySize/2)) - (foodY + 5/2)) <= scale*enemySize/2):
+    enemySize += int(4 * (1/scale))
     ## Randomize the new position of the food
     foodX = random.randint(10, WINDOW_WIDTH - 10)
     foodY = random.randint(10, WINDOW_HEIGHT - 10)
-  if (not enemyDead and abs((enemyX + (enemySize/2)) - (food2X + (5/2))) <= enemySize/2 and abs((enemyY + (enemySize/2)) - (food2Y + 5/2)) <= enemySize/2):
-    enemySize += 4
+  if (not enemyDead and abs((enemyX + (scale*enemySize/2)) - (food2X + (5/2))) <= scale*enemySize/2 and abs((enemyY + (scale*enemySize/2)) - (food2Y + 5/2)) <= scale*enemySize/2):
+    enemySize += int(4 * (1/scale))
     ## Randomize the new position of the food
     food2X = random.randint(10, WINDOW_WIDTH - 10)
     food2Y = random.randint(10, WINDOW_HEIGHT - 10)
 
   ## EAT EAT EAT EAT EAT EAT EAT 
   if(characterSize >= enemySize*2):
-    if(not enemyDead and distance(characterX + characterSize/2, enemyX + enemySize/2, characterY + characterSize/2, enemyY + enemySize/2) < characterSize/2):
+    if(not enemyDead and distance(characterX + scale*characterSize/2, enemyX + scale*enemySize/2, characterY + scale*characterSize/2, enemyY + scale*enemySize/2) < scale*characterSize/2):
       enemyDead = True
       characterSize += enemySize
   elif(not enemyDead and enemySize >= characterSize*2):
-    if(distance(characterX + characterSize/2, enemyX + enemySize/2, characterY + characterSize/2, enemyY + enemySize/2) < enemySize/2):
+    if(distance(characterX + scale*characterSize/2, enemyX + scale*enemySize/2, characterY + scale*characterSize/2, enemyY + scale*enemySize/2) < scale*enemySize/2):
       game_over()
 
-  character = pygame.Rect(characterX, characterY, characterSize, characterSize) ## Define the character's current position & size
+  ## There is a chance for the enemy to spawn again after it dies
+  if enemyDead and random.randint(1, 100) == 100:
+    enemyDead = False
+    enemyX = random.randint(10, WINDOW_WIDTH - 10)
+    enemyY = random.randint(10, WINDOW_HEIGHT - 10)
+    enemySize = characterSize + random.randint(1, 50)
+
+  ## Check/Update the current game scale
+  if(characterSize >= 100 and scale == 1):
+    scale = 1/2
+  elif(characterSize >= 500 and scale == 1/2):
+    scale = 1/4
+  elif(characterSize >= 1000 and scale == 1/4):
+    scale = 1/10
+  elif(characterSize >= 5000 and scale == 1/10):
+    scale = 1/20
+  elif(characterSize >= 10000 and scale == 1/20):
+    scale = 1/40
+  elif(characterSize >= 50000 and scale == 1/40):
+    scale = 1/80
+
+  character = pygame.Rect(characterX, characterY, characterSize * scale, characterSize * scale) ## Define the character's current position & size
   food = pygame.Rect(foodX, foodY, 10, 10) ## Define the food's current position & size
   food2 = pygame.Rect(food2X, food2Y, 10, 10) ## Define the food's current position & size
 
@@ -265,20 +299,20 @@ while looping :
     show_character_size(white, 'comicsansms', 20) ## Display the current character size
     ## Only render the enemy if it hasn't been killed
     if (not enemyDead):
-      enemy = pygame.Rect(enemyX, enemyY, enemySize, enemySize) ## Define the enemy's current position & size
+      enemy = pygame.Rect(enemyX, enemyY, enemySize * scale, enemySize * scale) ## Define the enemy's current position & size
       pygame.draw.rect(WINDOW, red, enemy) ## Render the enemy to the screen
       show_enemy_size(white, 'comicsansms', 20) ## Display the current enemy size
   else:
     ## Only render the enemy if it hasn't been killed
     if (not enemyDead):
-      enemy = pygame.Rect(enemyX, enemyY, enemySize, enemySize) ## Define the enemy's current position & size
+      enemy = pygame.Rect(enemyX, enemyY, enemySize * scale, enemySize * scale) ## Define the enemy's current position & size
       pygame.draw.rect(WINDOW, red, enemy) ## Render the enemy to the screen
       show_enemy_size(white, 'comicsansms', 20) ## Display the current enemy size
     pygame.draw.rect(WINDOW, purple, character) ## Render the character to the screen
     show_character_size(white, 'comicsansms', 20) ## Display the current character size
 
   ## Update the current score (40 is the initial size, so we subtract that)
-  score = characterSize - 40 
+  score = characterSize - 40
   ## Display the current score
   display_text(white, 'comicsansms', 20, f'Score : {score}', 'topleft', (10, 5))
   ## Display the current highscore

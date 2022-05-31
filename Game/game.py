@@ -137,8 +137,25 @@ def game_over():
 def distance(x1,x2,y1,y2):
     return (math.sqrt((x2-x1)**2) + (math.sqrt((y2-y1)**2)))
 
+## Method for displaying the main menu
+def main_menu():
+  in_menu = True
+
+  while in_menu:
+    WINDOW.fill(blue) ## Fill the background with a specified color
+    for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_RETURN:
+                    in_menu = False
+    pygame.display.flip() ## Update the screen
+    fpsClock.tick(FPS) ## Tick the game clock forward
+
 ## HERE IS THE MAIN CODE THAT CONTROLS THE GAME ##
-looping = True
+main_menu() ## Start the game in the main menu
+looping = True ## The game has begun!
 
 ## Set the initial x and y position of the character
 characterX = 100

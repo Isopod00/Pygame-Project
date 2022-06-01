@@ -24,6 +24,7 @@ enemyDead = False
 
 ## Set the initial scale of the game
 scale = 1
+scaleIteration = 0
 
 ## Initialize the pygame module!
 pygame.init()
@@ -266,23 +267,13 @@ while looping :
   ## There is a chance for the enemy to spawn again after it dies
   if enemyDead and random.randint(1, 120) == 120:
     enemyDead = False
-    enemyX = random.randint(10, WINDOW_WIDTH - 10)
-    enemyY = random.randint(10, WINDOW_HEIGHT - 10)
-    enemySize = characterSize + random.randint(1, 50)
+    enemySize = characterSize + random.randint(0, 10*(1/scale))
+    enemyX = random.randint(0, WINDOW_WIDTH) - scale*enemySize/2
+    enemyY = random.randint(0, WINDOW_HEIGHT) - scale*enemySize/2
 
-  ## Check/Update the current game scale
-  if(characterSize >= 100 and scale == 1):
-    scale = 1/2
-  elif(characterSize >= 500 and scale == 1/2):
-    scale = 1/4
-  elif(characterSize >= 1000 and scale == 1/4):
-    scale = 1/10
-  elif(characterSize >= 5000 and scale == 1/10):
-    scale = 1/20
-  elif(characterSize >= 10000 and scale == 1/20):
-    scale = 1/40
-  elif(characterSize >= 50000 and scale == 1/40):
-    scale = 1/80
+  if(characterSize >= 400*2**scaleIteration):
+    scale /= 2
+    scaleIteration += 1
 
   character = pygame.Rect(characterX, characterY, characterSize * scale, characterSize * scale) ## Define the character's current position & size
   food = pygame.Rect(foodX, foodY, 10, 10) ## Define the food's current position & size

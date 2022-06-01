@@ -128,7 +128,6 @@ def distance(x1,x2,y1,y2):
 ## Method for displaying the main menu
 def main_menu():
   in_menu = True
-  textSize = 35
   loop = 1
   maxLoop = 50
 
@@ -138,7 +137,7 @@ def main_menu():
 
     if loop < maxLoop/2:
       loop += 1
-      display_text(white, 'comicsansms', textSize, 'Press Enter/Return to Start!', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
+      display_text(white, 'comicsansms', 35, 'Press Enter/Return to Start!', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
     elif loop < maxLoop:
       loop += 1
     else:
@@ -151,6 +150,32 @@ def main_menu():
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_RETURN:
                     in_menu = False
+    pygame.display.flip() ## Update the screen
+    fpsClock.tick(FPS) ## Tick the game clock forward
+
+## Method for pausing the game
+def pause_game():
+  paused = True
+  loop = 1
+  maxLoop = 50
+
+  while paused:
+    WINDOW.fill(blue) ## Fill the background with a specified color
+
+    if loop < maxLoop/2:
+      loop += 1
+      display_text(white, 'comicsansms', 35, 'Game Paused, Press Enter/Return to Continue', 'center', (WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
+    elif loop < maxLoop:
+      loop += 1
+    else:
+      loop = 1
+
+    for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                game_over()
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_RETURN:
+                    paused = False
     pygame.display.flip() ## Update the screen
     fpsClock.tick(FPS) ## Tick the game clock forward
 
@@ -180,6 +205,9 @@ while looping :
   for event in pygame.event.get() :
     if event.type == QUIT :
       game_over()
+    if event.type==pygame.KEYDOWN:
+      if event.key==pygame.K_ESCAPE:
+        pause_game()
 
   ## Move the character's position when W,A,S,D (or arrow keys) are pressed
   pressed = pygame.key.get_pressed()

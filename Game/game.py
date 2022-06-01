@@ -19,6 +19,7 @@ characterSize = 40
 enemySize = 40
 ## Set the initial score
 score = 0
+enemiesDefeated = 0
 ## The enemy starts alive :)
 enemyDead = False
 
@@ -196,10 +197,11 @@ food2X = WINDOW_WIDTH / 2
 food2Y = WINDOW_HEIGHT / 2
 
 characterSpeed = 5 ## Change this to change the speed of the character
-enemySpeed = 2 ## Change this to change the speed of the enemy
 
 ## The main game loop
 while looping :
+
+  enemySpeed = 1 + enemiesDefeated ## The speed of the enemy increases as the game progresses
   
   ## Quit the application by running the game_over() method
   for event in pygame.event.get() :
@@ -233,22 +235,22 @@ while looping :
   ## Make the enemy move it's position towards the nearest food
   if(enemySize < characterSize*2):
     if(not enemyDead and distance(enemyX + scale*enemySize/2, foodX, enemyY + scale*enemySize/2, foodY) < distance(enemyX + scale*enemySize/2, food2X, enemyY + scale*enemySize/2, food2Y)):
-      if(enemyX + scale*enemySize/2 - foodX) < -1:
+      if(enemyX + scale*enemySize/2 - foodX) < -2:
         enemyX += enemySpeed
-      elif(enemyX + scale*enemySize/2 - foodX) > 1:
+      elif(enemyX + scale*enemySize/2 - foodX) > 2:
         enemyX -= enemySpeed
-      if(enemyY + scale*enemySize/2 - foodY) < -1:
+      if(enemyY + scale*enemySize/2 - foodY) < -2:
         enemyY += enemySpeed
-      elif(enemyY + scale*enemySize/2 - foodY) > 1:
+      elif(enemyY + scale*enemySize/2 - foodY) > 2:
         enemyY -= enemySpeed  
     elif(not enemyDead):
-      if(enemyX + scale*enemySize/2 - food2X) < -1:
+      if(enemyX + scale*enemySize/2 - food2X) < -2:
         enemyX += enemySpeed
-      elif(enemyX + scale*enemySize/2 - food2X) > 1:
+      elif(enemyX + scale*enemySize/2 - food2X) > 2:
         enemyX -= enemySpeed
-      if(enemyY + scale*enemySize/2 - food2Y) < -1:
+      if(enemyY + scale*enemySize/2 - food2Y) < -2:
         enemyY += enemySpeed
-      elif(enemyY + scale*enemySize/2 - food2Y) > 1:
+      elif(enemyY + scale*enemySize/2 - food2Y) > 2:
         enemyY -= enemySpeed  
   else: ## If the enemy is big enough, seek out the player to eat them
     if(enemyX + scale*enemySize/2 < characterX + scale*characterSize/2):
@@ -287,6 +289,7 @@ while looping :
   if(characterSize >= enemySize*2):
     if(not enemyDead and distance(characterX + scale*characterSize/2, enemyX + scale*enemySize/2, characterY + scale*characterSize/2, enemyY + scale*enemySize/2) < scale*characterSize/2):
       enemyDead = True
+      enemiesDefeated += 1
       characterSize += enemySize
   elif(not enemyDead and enemySize >= characterSize*2):
     if(distance(characterX + scale*characterSize/2, enemyX + scale*enemySize/2, characterY + scale*characterSize/2, enemyY + scale*enemySize/2) < scale*enemySize/2):
@@ -336,6 +339,8 @@ while looping :
   display_text(white, 'comicsansms', 20, f'Score : {score}', 'topleft', (10, 5))
   ## Display the current highscore
   display_text(white, 'comicsansms', 20, f'Highscore : {highscore}', 'topright', (WINDOW_WIDTH-10, 5))
+  ## Display the current # of enemies defeated
+  display_text(white, 'comicsansms', 20, f'Enemies Defeated : {enemiesDefeated}', 'center', (WINDOW_WIDTH/2, 20))
 
   pygame.display.flip() ## Update the screen
   fpsClock.tick(FPS) ## Tick the game clock forward

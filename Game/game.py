@@ -5,6 +5,7 @@ import random
 import time
 import pickle
 import math
+
 from pygame.locals import *
 
 # Define some common colors for future use
@@ -157,12 +158,12 @@ def main_menu():
         else:
             loop = 1
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for action in pygame.event.get():
+            if action.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+            if action.type == pygame.KEYDOWN:
+                if action.key == pygame.K_RETURN:
                     in_menu = False
         pygame.display.flip()  # Update the screen
         fpsClock.tick(FPS)  # Tick the game clock forward
@@ -186,11 +187,11 @@ def pause_game():
         else:
             loop = 1
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for action in pygame.event.get():
+            if action.type == pygame.QUIT:
                 game_over()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+            if action.type == pygame.KEYDOWN:
+                if action.key == pygame.K_RETURN:
                     paused = False
         pygame.display.flip()  # Update the screen
         fpsClock.tick(FPS)  # Tick the game clock forward
